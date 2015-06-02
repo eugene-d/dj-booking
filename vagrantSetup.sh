@@ -21,11 +21,25 @@ mysql -uroot -p123 -e "GRANT ALL PRIVILEGES ON *.* TO forge@localhost IDENTIFIED
 mysql -uroot -p123 -e "DROP DATABASE IF EXISTS \`forge\`";
 mysql -uroot -p123 -e "CREATE DATABASE \`forge\` DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_unicode_ci";
 
+#phpmyadmin
+debconf-set-selections <<< "phpmyadmin phpmyadmin/dbconfig-install boolean true";
+debconf-set-selections <<< "phpmyadmin phpmyadmin/app-password-confirm password $DBPASSWORD";
+debconf-set-selections <<< "phpmyadmin phpmyadmin/mysql/admin-pass password $DBPASSWORD";
+debconf-set-selections <<< "phpmyadmin phpmyadmin/mysql/app-pass password $DBPASSWORD";
+debconf-set-selections <<< "phpmyadmin phpmyadmin/reconfigure-webserver multiselect apache2";
+apt-get -y install phpmyadmin;
+ln -s /usr/share/phpmyadmin/ /vagrant/public/phpmyadmin;
+
 #modRewrite
 sudo a2enmod rewrite;
 sudo sed -i 's/AllowOverride None/AllowOverride All/g' /etc/apache2/apache2.conf;
 
 #change Apache user
 sudo sed -i 's/www-data/vagrant/g' /etc/apache2/envvars;
+
+if ! [ -L /var/www/html ]; then
+  rm -rf /var/www/html;
+  ln -fs /vagrant/public /var/www/html;
+fi
 
 sudo /etc/init.d/apache2 restart;
