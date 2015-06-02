@@ -4,3 +4,4 @@
 .env
 .vagrant
 .idea
+public/phpmyadmin
