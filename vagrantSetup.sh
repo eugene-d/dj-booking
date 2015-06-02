@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+DBPASSWORD='123';
+
 echo "##########Installing app##########";
 apt-get update;
 apt-get install -y python-software-properties;
@@ -10,6 +12,14 @@ apt-get install -y git;
 apt-get install -y php5;
 apt-get install -y php5-mcrypt;
 apt-get install -y php5-mysql;
+
+#mysql
+debconf-set-selections <<< 'mysql-server mysql-server/root_password password $DBPASSWORD';
+debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password $DBPASSWORD';
+apt-get install -y mysql-server;
+mysql -uroot -p123 -e "GRANT ALL PRIVILEGES ON *.* TO forge@localhost IDENTIFIED BY ''"
+mysql -uroot -p123 -e "DROP DATABASE IF EXISTS \`forge\`";
+mysql -uroot -p123 -e "CREATE DATABASE \`forge\` DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_unicode_ci";
 
 #modRewrite
 sudo a2enmod rewrite;
