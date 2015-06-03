@@ -145,6 +145,10 @@ return [
 		'App\Providers\EventServiceProvider',
 		'App\Providers\RouteServiceProvider',
 
+        /*
+         * Third party providers
+         */
+        'Zizaco\Entrust\EntrustServiceProvider'
 	],
 
 	/*
@@ -193,6 +197,7 @@ return [
 		'Validator' => 'Illuminate\Support\Facades\Validator',
 		'View'      => 'Illuminate\Support\Facades\View',
 
+        'Entrust' => 'Zizaco\Entrust\EntrustFacade'
 	],
 
 ];
