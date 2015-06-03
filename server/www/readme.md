@@ -21,3 +21,11 @@ Thank you for considering contributing to the Laravel framework! The contributio
 ### License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
+
+###Acl
+To activate ACL run next:
+cd server/www;
+php ../composer/composer.phar install;
+php ../composer/composer.phar update;
+php ../composer/composer.phar dump-autoload;
+php artisan migrate:refresh --seed;

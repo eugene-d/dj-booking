@@ -17,6 +17,11 @@ class DashboardController extends Controller {
         foreach($routes as $route) {
             $action = $route->getActionName();
             $actionParts = explode('@', $action);
+
+            if(!array_key_exists(1,$actionParts)) {
+                continue;
+            }
+
             $routeClassReflection = new ReflectionClass($actionParts[0]);
             $routeMethodReflection = $routeClassReflection->getMethod($actionParts[1]);
 
